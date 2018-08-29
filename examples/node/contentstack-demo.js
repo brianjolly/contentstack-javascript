@@ -23,7 +23,8 @@ class ContentstackDemo {
      */
     getEntries(contentTypeUid) {
         contentTypeUid = contentTypeUid || 'source'
-        return this.Stack.ContentType(contentTypeUid).Query().where('title', "hometestfinal").toJSON().find()
+        //return this.Stack.ContentType(contentTypeUid).Query().where('title', "hometestfinal").toJSON().find()
+        return this.Stack.ContentType(contentTypeUid).Query().only('markdown').toJSON().find()
     }
 
     /**
@@ -33,10 +34,12 @@ class ContentstackDemo {
      *                 entryUid       {string} - Specified entry to be fetched
      * @return       : Result {Promise}
      */
-    getEntry(contentTypeUid, entryUid) {
-            contentTypeUid = contentTypeUid || 'source'
-            entryUid = entryUid || 'blt123something'
-            return this.Stack.ContentType(contentTypeUid).Entry(entryUid).fetch()
+    getEntry() {
+
+            //return this.Stack.ContentType('source').language("en-us").find()
+            // contentTypeUid = contentTypeUid || 'source'
+            // entryUid = entryUid || 'blt123something'
+             return this.Stack.ContentType("source").Entry("blteab5d48c96bc5714").fetch()
         }
         /**
          * getAssets
