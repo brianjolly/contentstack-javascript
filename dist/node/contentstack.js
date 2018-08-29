@@ -594,7 +594,7 @@ var Stack = function () {
 
     /**
      * @method setPort
-     * @description Sets the port of the host.
+     * @description Sets the port for the host.
      * @param {Number} port - Port Number
      * @return Stack
      * */
@@ -609,7 +609,7 @@ var Stack = function () {
 
         /**
          * @method setProtocol
-         * @description Sets the protocol of the host.
+         * @description Sets the protocol for the host.
          * @param {String} protocol - http/https protocol
          * @return Stack
          * */
@@ -623,8 +623,8 @@ var Stack = function () {
 
         /**
          * @method setHost
-         * @description Sets the host of the API server.
-         * @param {String} host - valid ip or host
+         * @description Sets the host for the API server.
+         * @param {String} host - valid IP or host
          * @return Stack
          * */
 
@@ -637,7 +637,7 @@ var Stack = function () {
 
         /**
          * @method setCachePolicy
-         * @description setCachePolicy which contains different cache policies.
+         * @description Allows you to set an object of the cache provider.
          * @param {Constant} [key=ONLY_NETWORK] - Cache policy to be applied on Stack or Query.
          * @example
          * Stack.setCachePolicy(Contentstack.CachePolicy.IGNORE_CACHE)
@@ -665,7 +665,7 @@ var Stack = function () {
 
         /**
          * @method setCacheProvider
-         * @description Set 'Cache Provider' object.
+         * @description Returns the currently set object of ‘CacheProvider’ 
          * @example
          * Stack
          *      .setCacheProvider({
@@ -752,8 +752,16 @@ var Stack = function () {
 
         /**
          * @method ContentType
-         * @description Set "ContentType" from the Stack from where you want to retrive the entries.
+         * @description Set the contentType the entries of which you want to retrieve
          * @param {String} [content_type_uid] - uid of the existing contenttype
+         * @example 
+         * let data = Stack.ContentType('blog').Query().toJSON().find()
+         * data
+         *      .then(function(result) {
+         *           // result content the list of entries of particular contenttype blog.       
+         *      }, function(error) {
+         *           // error function
+         *      })
          * @returns {Stack}
          */
 
@@ -769,9 +777,16 @@ var Stack = function () {
 
         /**
          * @method Entry
-         * @description Set the Entry Uid which you want to retrive from the Contenttype specified.
-         * @param {String} uid - entry_uid
-         * @example ContentType('blog').Entry('blt1234567890abcef')
+         * @description Retrieves the entry based on the specified UID. 
+         * @param {String} uid - Entry_uid of entry you want to retrieve
+         * @example 
+         * let data = Stack.ContentType('blog').Entry('bltsomething123').toJSON().fetch()
+         * data
+         *      .then(function(result) {
+         *           // result is single entry object of specific entry_uid.       
+         *      }, function(error) {
+         *           // error function
+         *      })
          * @returns {Entry}
          */
 
@@ -787,9 +802,16 @@ var Stack = function () {
 
         /**
          * @method Assets
-         * @description Set the Asset Uid which you want to retrive the Asset.
-         * @param {String} uid - asset_uid
-         * @example Stack.Assets('blt1234567890abcef')
+         * @description Retrieves the asset based on the specified UID
+         * @param {String} uid - uid of asset you want to retrieve
+         * @example 
+         * let data = Stack.Assets('bltsomething123').toJSON().fetch()
+         * data
+         *      .then(function(result) {
+         *           // result is single asset object of specific asset_uid.       
+         *      }, function(error) {
+         *           // error function
+         *      })
          * @returns {Assets}
          */
 
@@ -807,8 +829,8 @@ var Stack = function () {
 
         /**
          * @method Query
-         * @description Query instance to provide support for all search queries.
-         * @example ContentType('blog').Query()
+         * @description Provides support for all search queries.
+         * @example Stack.ContentType('blog').Query().toJSON().find()
          * @returns {Query}
          */
 
@@ -823,6 +845,14 @@ var Stack = function () {
          * @method getLastActivites
          * @description getLastActivites get all the ContentTypes whose last activity updated.
          * @example Stack.getLastActivites()
+         * @example 
+         * let data = Stack.getLastActivites().toJSON().fetch()
+         * data
+         *      .then(function(result) {
+         *           // result is list of contentTypes whose last activity updated.       
+         *      }, function(error) {
+         *           // error function
+         *      })
          * @returns {Stack}
          * @ignore
          */
@@ -845,9 +875,9 @@ var Stack = function () {
 
         /**
          * @method imageTransform
-         * @description Transforms provided image url based on transformation parameters.  
-         * @param {String} url - Url on which transformations to be applied.
-         * @param {String} params - Transformation parameters
+         * @description Performs transformations on images of mentioned url based on transformation parameters.  
+         * @param {String} url - Image url on which transformations need to be applied.
+         * @param {String} params - Object with transformation parameters
          * @example
          * Stack.imageTransform(imageURL, {height: 100, width: 200, disable: "upscale"});
          * @example
@@ -1308,7 +1338,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 //JS SDK version
-var version = '3.3.0';
+var version = '3.4.1';
 
 function Request(options) {
     return new Promise(function (resolve, reject) {
@@ -1551,9 +1581,10 @@ var Entry = function () {
         this._query = {};
         /**
          * @method only
-         * @description This method is use to show the selected fields of the entries in resultset.
-         * @param {String} [key=BASE] - reference field in the entry/single field in entry
-         * @param {Array} values - array of fields to be show in resultset
+         * @description Displays values of only the specified fields in the response
+         * @param {String} [key=BASE] - BASE (default value) - retrieves default fields of the schema.
+                                      - referenced content-type-uid - retrieves fields of the referred content type.
+         * @param {Array} values - array of fields that you want to display in the response
          * @example
          * <caption> .only with field uid </caption>
          * blogEntry.only('title')
@@ -1574,12 +1605,13 @@ var Entry = function () {
         this.only = Utils.transform('only');
         /**
          * @method except
-         * @description This method is use to hide the selected fields of the entries in resultset.
-         * @param {String} [key=BASE] - reference field in the entry/single field in entry
-         * @param {Array} values - array of fields to be show in resultset
+         * @description Displays all data of an entry excluding the data of the specified fields.
+         * @param {String} [key=BASE] - BASE (default value) - retrieves default fields of the schema.
+                                                             - referenced_content-type-uid - retrieves fields of the referred content type.
+         * @param {Array} values - array of fields that you want to skip in the response
          * @example
          * <caption> .except with field uid </caption>
-         * blogEntry.except('title')
+         * Stack.blogEntry.except('title')
          * @example
          * <caption> .except with field uid </caption>
          * blogEntry.except('BASE','title')
@@ -1622,7 +1654,7 @@ var Entry = function () {
 
         /**
          * @method includeReference
-         * @description This method is use to include referenced entries from the other Contenttype.
+         * @description Fetches the entire content of referenced entry(ies)
          * @example
          * <caption> .includeReference with reference_field_uids as array </caption>
          * blogEntry.includeReference(['category', 'author'])
@@ -1654,9 +1686,17 @@ var Entry = function () {
 
         /**
          * @method language
-         * @description This method is used set language code, which language's data to be retrieve.
+         * @description Sets the language code of which you want to retrieve data.
          * @param {String} language_code - language code. e.g. 'en-us', 'ja-jp', etc.
-         * @example blogEntry.language('en-us')
+         * @example 
+         * let data = blogEntry.language('en-us')
+         * data
+         *      .then(function(result) {
+         *           // result is  an object used to retrieve data of en-us language.
+         *      }, function(error) {
+         *           // error function
+         *      })
+         *          
          * @returns {Entry}
          */
 
@@ -1673,7 +1713,7 @@ var Entry = function () {
 
         /**
          * @method addQuery
-         * @description This method is used to add query to Entry object.
+         * @description Adds query to Eentry object.
          * @param {String} key - key of the query
          * @param {String} value - value of the query
          * @example blogEntry.addQuery('include_schema',true)
@@ -1692,9 +1732,9 @@ var Entry = function () {
         }
 
         /**
-         * @method includeSchema
+         * @method ncludeSchema
          * @deprecated since verion 3.3.0
-         * @description This method is used to include the schema of the current contenttype in result set along with the entry/entries.
+         * @description  Include schema of the current contenttype along with entry/entries details.
          * @example blogEntry.includeSchema()
          * @returns {Entry}
          */
@@ -1708,7 +1748,7 @@ var Entry = function () {
 
         /**
          * @method includeContentType
-         * @description This method is used to include the current contenttype in result set along with the entry/entries.
+         * @description Include the details of the contenttype along with the entry/entries details.
          * @example blogEntry.includeContentType()
          * @returns {Entry}
          */
@@ -1722,7 +1762,7 @@ var Entry = function () {
 
         /**
          * @method includeOwner
-         * @description This method is used to include the owner of the entry/entries in resultset.
+         * @description Includes the owner details of the entry/entries
          * @example blogEntry.includeOwner()
          * @returns {Entry}
          */
@@ -1757,8 +1797,13 @@ var Entry = function () {
 
         /**
          * @method AddParam
-         * @description This method includes query parameter in query.
-         * @example blogQuery.addParam('include_count', 'true').fetch()
+         * @description AddParam method includes query parameter in query.
+         * @example var data = blogQuery.addParam('include_count', 'true').fetch()
+         *      data.then(function (result) {
+         *          // result is an object which content the data including count in json object form
+         *       },function (error) {
+         *          // error function
+         *      })
          */
 
     }, {
@@ -1774,7 +1819,7 @@ var Entry = function () {
 
         /**
          * @method fetch
-         * @description fetch entry of requested content_type of defined query if present.
+         * @description fetch is a method which is use to request of particular entry in particular content_type, defined query if present.
          * @example
          * blogEntry.fetch()
          */
@@ -1941,20 +1986,32 @@ var Query = function (_Entry) {
         _this._query['query'] = _this._query['query'] || {};
         /**
          * @method lessThan
-         * @description This method provides only the entries with values less than the specified value for a field.
-         * @param {String} key - uid of the field that is to be taken into consideration
-         * @param {*} value - The value used to match or compare
-         * @example blogQuery.lessThan('created_at','2015-06-22')
+         * @description Retrieves entries in which the value of a field is lesser than the provided value
+         * @param {String} key - uid of the field
+         * @param {*} value - Value used to match or compare
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.lessThan('created_at','2015-06-22').find()
+         *          data.then(function (result) {
+         *          // result content the data who's created_at date is less than '2015-06-22'
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.lessThan = _extend.compare('$lt');
 
         /**
          * @method lessThanOrEqualTo
-         * @description This method provides only the entries with values less than or equal to the specified value for a field.
-         * @param {String} key - uid of the field that is to be taken into consideration
-         * @param {*} value - The value used to match or compare
-         * @example blogQuery.lessThanOrEqualTo('created_at','2015-03-12')
+         * @description Retrieves entries in which the value of a field is lesser than or equal to the provided value.
+         * @param {String} key - uid of the field
+         * @param {*} value - Value used to match or compare
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.lessThanOrEqualTo('created_at','2015-06-22').find()
+         *          data.then(function (result) {
+         *          // result contents the data of entries where the created_at date will be less than and equalto '2015-06-22' date
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.lessThanOrEqualTo = _extend.compare('$lte');
@@ -1962,8 +2019,15 @@ var Query = function (_Entry) {
          * @method greaterThan
          * @description This method provides only the entries with values greater than the specified value for a field.
          * @param {String} key - uid of the field that is to be taken into consideration
-         * @param {*} value - The value used to match or compare
-         * @example blogQuery.greaterThan('created_at','2015-03-12')
+         * @param {*} value - The value used to match or compare.
+         * @example 
+         *          let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.greaterThan('created_at','2015-03-12').find()
+         *                     data.then(function(result) {
+         *                       // result contains the data of entries where the created_at date will be greater to '2015-06-22'
+         *                     },function (error) {
+         *                       // error function
+         *                     })
          * @returns {Query}
          */
         _this.greaterThan = _extend.compare('$gt');
@@ -1971,83 +2035,134 @@ var Query = function (_Entry) {
         /**
          * @method greaterThanOrEqualTo
          * @description This method provides only the entries with values greater than or equal to the specified value for a field.
-         * @param {String} key - uid of the field that is to be taken into consideration
-         * @param {*} value - The value used to match or compare
-         * @example blogQuery.greaterThanOrEqualTo('created_at', '2015-06-22')
+         * @param {String} key - uid of the field 
+         * @param {*} value - Value used to match or compare
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.greaterThanOrEqualTo('created_at','2015-03-12').find()
+         *          data.then(function(result) {
+         *          // result contains the dataof entries where the created_at date will be greaterThan or equal '2015-06-22'
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.greaterThanOrEqualTo = _extend.compare('$gte');
 
         /**
          * @method notEqualTo
-         * @description This method provides only the entries with values not equal to the specified value for a field.
-         * @param {String} key - uid of the field that is to be taken into consideration
-         * @param {*} value - The value used to match or compare
+         * @description Retrieves entries in which the value for a field does not match the provided value.
+         * @param {String} key - uid of the field 
+         * @param {*} value - Value used to match or compare
          * @example blogQuery.notEqualTo('title','Demo')
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.notEqualTo('title','Demo').find()
+         *          data.then(function(result) {
+         *            // ‘result’ contains the list of entries where value of the ‘title’ field will not be 'Demo'.
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.notEqualTo = _extend.compare('$ne');
 
         /**
          * @method containedIn
-         * @description This method provides only the entries with values matching the specified values for a field.
-         * @param {String} key - uid of the field that is to be taken into consideration
-         * @param {*} value - An array of values that are to be used to match or compare
-         * @example blogQuery.containedIn('title', ['Demo', 'Welcome'])
+         * @description Retrieve entries in which the value of a field matches with any of the provided array of values
+         * @param {String} key - uid of the field
+         * @param {*} value - Array of values that are to be used to match or compare
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.containedIn('title', ['Demo', 'Welcome']).find()
+         *          data.then(function(result) {
+         *          // ‘result’ containsent the list of entries where value of the ‘title’ field will containe either 'Demo' or ‘Welcome’.
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.containedIn = _extend.contained(true);
 
         /**
          * @method notContainedIn
-         * @description This method provides only the entries that do not contain values matching the specified values for a field.
-         * @param {String} key - uid of the field that is to be taken into consideration
-         * @param {Array} value - An array of values that are to be used to match or compare
-         * @example blogQuery.notContainedIn('title', ['Demo', 'Welcome'])
+         * @description Retrieve entries in which the value of a field does not match with any of the provided array of values.
+         * @param {String} key - uid of the field
+         * @param {Array} value - Array of values that are to be used to match or compare
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.notContainedIn('title', ['Demo', 'Welcome']).find()
+         *          data.then(function(result) {
+         *          // result contains the list of entries where value of the title field should not be either "Demo" or ‘Welcome’
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.notContainedIn = _extend.contained(false);
 
         /**
          * @method exists
-         * @description This method provides only the entries that contains the field matching the specified field uid.
-         * @param {String} key - uid of the field that is to be taken into consideration
+         * @description Retrieve entries if value of the field, mentioned in the condition, exists.
+         * @param {String} key - uid of the field
          * @example blogQuery.exists('featured')
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.exists('featured').find()
+         *          data.then(function(result) {
+         *          // ‘result’ contains the list of entries in which "featured" exists.
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.exists = _extend.exists(true);
 
         /**
          * @method notExists
-         * @description This method provides only the entries that do not contain the field matching the specified field uid.
-         * @param {String} key - uid of the field that is to be taken into consideration
+         * @description Retrieve entries if value of the field, mentioned in the condition, does not exists.
+         * @param {String} key - uid of the field
          * @example blogQuery.notExists('featured')
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.notExists('featured').find()
+         *          data.then(function(result) {
+         *        // result is the list of non-texisting’featured’" data.
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.notExists = _extend.exists(false);
 
         /**
          * @method ascending
-         * @description This parameter sorts the provided entries in the ascending order on the basis of the specified field.
-         * @param {String} key - field uid based on which the ordering should be done
-         * @example blogQuery.ascending('created_at')
+         * @description Sort fetched entries in the ascending order with respect to a specific field.
+         * @param {String} key - uid of the field
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.ascending('created_at').find()
+         *          data.then(function(result) {
+         *           // ‘result’ contains the list of entries which is sorted in ascending order on the basis of ‘created_at’. 
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.ascending = _extend.sort('asc');
 
         /**
          * @method descending
-         * @description This method sorts the provided entries in the descending order on the basis of the specified field.
-         * @param {String} key - field uid based on which the ordering should be done.
-         * @example blogQuery.descending('created_at')
+         * @description Sort fetched entries in the descending order with respect to a specific field
+         * @param {String} key - field uid based on which the ordering will be done.
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.descending('created_at').find()
+         *          data.then(function(result) {
+         *           // ‘result’ contains the list of entries which is sorted in descending order on the basis of ‘created_at’. 
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.descending = _extend.sort('desc');
 
         /**
          * @method beforeUid
-         * @description This method provides only the entries before the specified entry id.
-         * @param {String} uid - uid of the entry
+         * @description Sort fetched entries in the descending order with respect to a specific field
+         * @param {String} uid - field uid based on which the ordering will be done.
          * @example blogQuery.beforeUid('blt1234567890abcdef')
          * @returns {Query}
          * @ignore
@@ -2066,30 +2181,43 @@ var Query = function (_Entry) {
 
         /**
          * @method skip
-         * @description This method skips the specified number of entries.
+         * @description Skips at specific number of entries.
          * @param {Number} skip - number of entries to be skipped
          * @example blogQuery.skip(5)
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.skip(5).find()
+         *          data.then(function(result) {
+         *          // ‘result’ contains the list of data which is sorted in descending order on created_at bases. 
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.skip = _extend.pagination('skip');
 
         /**
          * @method limit
-         * @description This method limits the response by providing only the specified number of entries.
-         * @param {Number} limit - number of entries to be present in the result(at most)
-         * @example blogQuery.limit(10)
+         * @description Returns a specific number of entries based on the set limit
+         * @param {Number} limit - maximum number of entries to be returned
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.limit(10).find()
+         *          data.then(function(result) {
+         *          // ‘result’ contains the limited number of entries
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
         _this.limit = _extend.pagination('limit');
 
         /**
          * @method or
-         * @description This method performs the OR operation on the specified query objects and provides only the matching entries.
-         * @param {object} queries - array of Query objects/raw queries to be taken into consideration
+         * @description Retrieves entries that satisfy at least one of the given conditions
+         * @param {object} queries - array of Query objects or raw queries
          * @example
          * <caption> .or with Query instances</caption>
-         * let Query1 = Stack.ContentType('blog').Query().where('title', 'Demo')
-         * let Query2 = Stack.ContentType('blog').Query().lessThan('comments', 10)
+         * let Query1 = Stack.ContentType('blog').Query().where('title', 'Demo').find()
+         * let Query2 = Stack.ContentType('blog').Query().lessThan('comments', 10).find()
          * blogQuery.or(Query1, Query2)
          * @example
          * <caption> .or with raw queries</caption>
@@ -2102,8 +2230,8 @@ var Query = function (_Entry) {
 
         /**
          * @method and
-         * @description This method performs the AND operation on the specified query objects and provides only the matching entries.
-         * @param {object} queries - array of Query objects/raw queries to be taken into consideration
+         * @description Retrieve entries that satisfy all the provided conditions.
+         * @param {object} queries - array of query objects or raw queries.
          * @example
          * <caption> .and with Query instances</caption>
          * let Query1 = Stack.ContentType('blog').Query().where('title', 'Demo')
@@ -2120,16 +2248,6 @@ var Query = function (_Entry) {
         return _this;
     }
 
-    /**
-     * @method where(equalTo)
-     * @description This method provides only the entries matching the specified value for a field.
-     * @param {String} key - uid of the field that is to be taken into consideration
-     * @param {*} value - The value used to match or compare
-     * @example blogQuery.where('title','Demo')
-     * @returns {Query}
-     */
-
-
     _createClass(Query, [{
         key: 'equalTo',
         value: function equalTo(key, value) {
@@ -2141,6 +2259,22 @@ var Query = function (_Entry) {
                 console.error("Kindly provide valid parameters.");
             }
         }
+
+        /**
+         * @method where(equalTo)
+         * @description Retrieve entries in which a specific field satisfies the value provided
+         * @param {String} key - uid of the field
+         * @param {*} value - value used to match or compare
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.where('title','Demo').find()
+         *          data.then(function(result) {
+         *            // ‘result’ contains the list of entries where value of ‘title’ is equal to ‘Demo’. 
+         *       },function (error) {
+         *          // error function
+         *      })
+         * @returns {Query}
+         */
+
     }, {
         key: 'where',
         value: function where(key, value) {
@@ -2154,8 +2288,15 @@ var Query = function (_Entry) {
 
         /**
          * @method count
-         * @description This method provides only the number of entries matching the specified filters.
+         * @description Returns the total number of entries
          * @example blogQuery.count()
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.count().find()
+         *          data.then(function(result) {
+         *           // ‘result’ contains the total count. 
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
 
@@ -2179,8 +2320,8 @@ var Query = function (_Entry) {
 
         /**
          * @method query
-         * @description This method used to set raw queries on Query instance.
-         * @param {object} query - raw{json} queries to filter the entries in result set.
+         * @description Retrieve entries based on raw queries
+         * @param {object} query - RAW (JSON) queries 
          * @returns {Query}
          */
 
@@ -2197,9 +2338,15 @@ var Query = function (_Entry) {
 
         /**
          * @method tags
-         * @description The "tags" parameter allows you to specify an array of tags to search objects.
+         * @description Retrieves entries based on the provided tags
          * @param {Array} values - tags
-         * @example blogQuery.tags(['technology', 'business'])
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.tags(['technology', 'business']).find()
+         *          data.then(function(result) {
+         *        // ‘result’ contains list of entries which have tags "’technology’" and ‘"business’".
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
 
@@ -2216,8 +2363,15 @@ var Query = function (_Entry) {
 
         /**
          * @method includeCount
-         * @description This method also includes the total number of entries returned in the response.
+         * @description Includes the total number of entries returned in the response.
          * @example blogQuery.includeCount()
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.includeCount().find()
+         *          data.then(function(result) {
+         *         // ‘result’ contains a list of entries in which count of object is present at array[1] position. 
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
 
@@ -2230,8 +2384,15 @@ var Query = function (_Entry) {
 
         /**
          * @method AddParam
-         * @description This method includes query parameter in query.
+         * @description Retrieves entries based on the query provided
          * @example blogQuery.addParam('include_count', 'true')
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.addParam('include_count', 'true').find()
+         *          data.then(function(result) {
+         *         // ‘result’ contains the count of object present in array[1] position. 
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
 
@@ -2249,7 +2410,7 @@ var Query = function (_Entry) {
         /**
          * @method getQuery
          * @summary returns the raw query which can be used for futher calls(.and/.or).
-         * @description This method provides raw{json} queries based on the filters applied on Query objet.
+         * @description Returns the raw (JSON) query based on the filters applied on Query objet.
          * @example blogQuery.where('title','Demo').getQuery()
          * @returns {Query}
          */
@@ -2262,9 +2423,9 @@ var Query = function (_Entry) {
 
         /**
          * @method regex
-         * @description This method provides only the entries matching the regular expression for the specified field.
-         * @param {String} key - Uid of the field that is to be taken into consideration
-         * @param {*} value - The value used to match or compare
+         * @description Retrieve entries that match the provided regular expressions
+         * @param {String} key - uid of the field
+         * @param {*} value - value used to match or compare
          * @param {String} [options] - match or compare value in entry
          * @example
          * <caption> .regex without options</caption>
@@ -2291,9 +2452,16 @@ var Query = function (_Entry) {
 
         /**
          * @method search
-         * @description This method is used to search data in entries.
+         * @description Retrieve entries that have fields which match the provided search value.
          * @param {string} value - value to search in entries
          * @example blogQuery.search('Welcome to demo')
+         * @example let blogQuery = Stack().ContentType('example').Query();
+         *          let data = blogQuery.search('welcome to demo').find()
+         *          data.then(function(result) {
+         *         // ‘result’ contains the object that possess the text "’welcome to demo’".
+         *       },function (error) {
+         *          // error function
+         *      })
          * @returns {Query}
          */
 
@@ -2310,8 +2478,13 @@ var Query = function (_Entry) {
 
         /**
          * @method find
-         * @description Provides all the entries which satisfied the query specified.
-         * @example
+         * @description Retrieves entries that satisfied the specified query
+         * @example let blogQuery = Stack().ContentType('example').Query().find();
+         *          blogQuery.then(function(result) {
+         *          // result contains the list of object. 
+         *       },function (error) {
+         *          // error function
+         *      })
          * blogQuery.find()
          */
 
@@ -2335,8 +2508,13 @@ var Query = function (_Entry) {
         /**
          * @method findOne
          * @deprecated since verion 3.3.0
-         * @description Provides the single entry from the resultset.
-         * @example
+         * @description Retrieve a single entry from the result
+         * @example let blogQuery = Stack().ContentType('example').Query().findOne();
+         *          blogQuery.then(function(result) {
+         *          // result content the single item object. 
+         *       },function (error) {
+         *          // error function
+         *      })
          * blogQuery.findOne()
          */
 
@@ -7019,7 +7197,7 @@ var Contentstack = function () {
 
 	/**
   * @method Stack
-  * @description Initialize "Built.io Contentstack" Stack javascript-SDK instance
+  * @description Initialize "Contentstack" Stack javascript-SDK instance
   * @api public
   * @example
   * var Stack = Contentstack.Stack('api_key', 'access_token', 'environment');
@@ -7116,19 +7294,8 @@ var Assets = function () {
     }
 
     /**
-     * @method Query
-     * @description Query instance to provide support for all search queries.
-     * @example Assets().Query()
-     * @returns {Query}
-     */
-    // Query() {
-    //     let query = new Query();
-    //     return Utils.merge(query, this);
-    // }
-
-    /**
      * @method toJSON
-     * @description This method is used to convert the result in to plain javascript object.
+     * @description Converts your response into plain JavasScript object.
      * @example
      * assetQuery
      *      .toJSON()
@@ -7150,8 +7317,13 @@ var Assets = function () {
 
         /**
         * @method AddParam
-        * @description This method includes query parameter in query.
-        * @example Stack.Assets('bltsomething123').addParam('include_dimension', 'true').fetch()
+        * @description Includes query parameters in your query.
+        * @example var data = blogQuery.addParam('include_count', 'true').toJSON().fetch()
+        *      data.then(function (result) {
+        *          // result contents count in JSON object form
+        *       },function (error) {
+        *          // error function
+        *      })
         */
 
     }, {
@@ -7167,9 +7339,9 @@ var Assets = function () {
 
         /**
          * @method fetch
-         * @description fetch asset obhect of requested Asset uid of defined query if present.
+         * @description Fetches a particular entry based on the provided stack UID.
          * @example
-         * Stack.Assets('bltsomething123').fetch()
+         * Stack.Assets('bltsomething123').toJSON().fetch()
          */
 
     }, {
@@ -7272,8 +7444,8 @@ var Result = function () {
 
         /**
          * @method get
-         * @description `get` to access the key value.
-         * @param field_uid
+         * @description Retrieve details of a field based on the UID provided
+         * @param field_uid uid of the field
          * @example
          * blogEntry.then(function (result) {
          *      let value = result.get(field_uid)
@@ -7304,8 +7476,8 @@ var Result = function () {
 
         /**
          * @method getDownloadUrl
-         * @description `getDownloadUrl` to get the download url.
-         * @param {String} string - Disposition value
+         * @description Retrieves the download URL based on the disposition value.
+         * @param {String} string - disposition value
          * @example
          * assetQuery.then(function (result) {
          *      let value = result.getDownloadUrl(disposition_value)
