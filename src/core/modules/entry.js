@@ -45,19 +45,19 @@ export default class Entry {
          * @param {Array} values - array of fields that you want to skip in the response
          * @example
          * <caption> .except with field uid </caption>
-         * Stack.blogEntry.except('title')
+         * Stack.ContentType('contentTypeUid').Query().except('title').toJSON().find()
          * @example
          * <caption> .except with field uid </caption>
-         * blogEntry.except('BASE','title')
+         * Stack.ContentType('contentTypeUid').Query().except('BASE','title').toJSON().find()
          * @example
          * <caption> .except with field uids(array) </caption>
-         * blogEntry.except(['title','description'])
+         * Stack.ContentType('contentTypeUid').Query().except(['title','description']).toJSON().find()
          * @example
          * <caption> .except with reference_field_uid and field uid </caption>
-         * blogEntry.includeReference('category').except('category','title')
+         * Stack.ContentType('contentTypeUid').Query().includeReference('category').except('category','title').toJSON().find()
          * @example
          * <caption> .except with reference_field_uid and field uids(array) </caption>
-         * blogEntry.includeReference('category').except('category', ['title', 'description'])
+         * Stack.ContentType('contentTypeUid').Query().includeReference('category').except('category', ['title', 'description']).toJSON().find()
          * @returns {Entry} */
         this.except = Utils.transform('except');
         return this;
@@ -150,10 +150,10 @@ export default class Entry {
     }
 
     /**
-     * @method ncludeSchema
+     * @method IncludeSchema
      * @deprecated since verion 3.3.0
      * @description  Include schema of the current contenttype along with entry/entries details.
-     * @example blogEntry.includeSchema()
+     * @example Stack.ContentType("contentType_uid").Entry("entry_uid").includeSchema().fetch()
      * @returns {Entry}
      */
     includeSchema() {
@@ -223,9 +223,9 @@ export default class Entry {
 
     /**
      * @method fetch
-     * @description fetch is a method which is use to request of particular entry in particular content_type, defined query if present.
+      * @description Fetches a particular entry based on the provided entry UID.
      * @example
-     * blogEntry.fetch()
+     * Stack.blogEntry('entry_uid').fetch()
      */
     fetch() {
         if (this.entry_uid) {

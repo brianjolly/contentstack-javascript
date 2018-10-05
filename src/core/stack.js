@@ -80,7 +80,7 @@ export default class Stack {
 
     /**
      * @method setCachePolicy
-     * @description Allows you to set an object of the cache provider.
+     * @description Allows you to set cache policies.
      * @param {Constant} [key=ONLY_NETWORK] - Cache policy to be applied on Stack or Query.
      * @example
      * Stack.setCachePolicy(Contentstack.CachePolicy.IGNORE_CACHE)
@@ -105,7 +105,7 @@ export default class Stack {
 
     /**
      * @method setCacheProvider
-     * @description Returns the currently set object of ‘CacheProvider’ 
+     * @description Allows you to set an object of the cache provider
      * @example
      * Stack
      *      .setCacheProvider({
@@ -168,7 +168,7 @@ export default class Stack {
 
     /**
      * @method getCacheProvider
-     * @description Returns currently set CacheProvider object.
+     * @description Returns the currently set object of CacheProvider.
      * @example Stack.getCacheProvider();
      * @returns {Object}
      */
@@ -182,7 +182,7 @@ export default class Stack {
      * @param {String} [content_type_uid] - uid of the existing contenttype
      * @example 
      * let data = Stack.ContentType('blog').Query().toJSON().find()
-     * data
+     *      data
      *      .then(function(result) {
      *           // result content the list of entries of particular contenttype blog.       
      *      }, function(error) {
@@ -204,7 +204,7 @@ export default class Stack {
      * @param {String} uid - Entry_uid of entry you want to retrieve
      * @example 
      * let data = Stack.ContentType('blog').Entry('bltsomething123').toJSON().fetch()
-     * data
+     *      data
      *      .then(function(result) {
      *           // result is single entry object of specific entry_uid.       
      *      }, function(error) {
@@ -226,7 +226,7 @@ export default class Stack {
      * @param {String} uid - uid of asset you want to retrieve
      * @example 
      * let data = Stack.Assets('bltsomething123').toJSON().fetch()
-     * data
+     *      data
      *      .then(function(result) {
      *           // result is single asset object of specific asset_uid.       
      *      }, function(error) {
@@ -261,7 +261,7 @@ export default class Stack {
      * @example Stack.getLastActivites()
      * @example 
      * let data = Stack.getLastActivites().toJSON().fetch()
-     * data
+     *      data
      *      .then(function(result) {
      *           // result is list of contentTypes whose last activity updated.       
      *      }, function(error) {

@@ -119,7 +119,7 @@ export default class Query extends Entry {
          * @example let blogQuery = Stack().ContentType('example').Query();
          *          let data = blogQuery.lessThanOrEqualTo('created_at','2015-06-22').find()
          *          data.then(function (result) {
-         *          // result contents the data of entries where the created_at date will be less than and equalto '2015-06-22' date
+         *          // result contain the data of entries where the created_at date will be less than or equalto '2015-06-22'.
          *       },function (error) {
          *          // error function
          *      })
@@ -128,14 +128,14 @@ export default class Query extends Entry {
         this.lessThanOrEqualTo = _extend.compare('$lte');
         /**
          * @method greaterThan
-         * @description This method provides only the entries with values greater than the specified value for a field.
-         * @param {String} key - uid of the field that is to be taken into consideration
-         * @param {*} value - The value used to match or compare.
+         * @description Retrieves entries in which the value for a field is greater than the provided value.
+         * @param {String} key - uid of the field
+         * @param {*} value -  value used to match or compare.
          * @example 
          *          let blogQuery = Stack().ContentType('example').Query();
          *          let data = blogQuery.greaterThan('created_at','2015-03-12').find()
          *                     data.then(function(result) {
-         *                       // result contains the data of entries where the created_at date will be greater to '2015-06-22'
+         *                       // result contains the data of entries where the created_at date will be greaterthan '2015-06-22'
          *                     },function (error) {
          *                       // error function
          *                     })
@@ -145,13 +145,13 @@ export default class Query extends Entry {
 
         /**
          * @method greaterThanOrEqualTo
-         * @description This method provides only the entries with values greater than or equal to the specified value for a field.
+         * @description Retrieves entries in which the value for a field is greater than or equal to the provided value.
          * @param {String} key - uid of the field 
          * @param {*} value - Value used to match or compare
          * @example let blogQuery = Stack().ContentType('example').Query();
          *          let data = blogQuery.greaterThanOrEqualTo('created_at','2015-03-12').find()
          *          data.then(function(result) {
-         *          // result contains the dataof entries where the created_at date will be greaterThan or equal '2015-06-22'
+         *          // result contains the data of entries where the created_at date will be greaterThan or equalto '2015-06-22'
          *       },function (error) {
          *          // error function
          *      })
@@ -184,7 +184,7 @@ export default class Query extends Entry {
          * @example let blogQuery = Stack().ContentType('example').Query();
          *          let data = blogQuery.containedIn('title', ['Demo', 'Welcome']).find()
          *          data.then(function(result) {
-         *          // ‘result’ containsent the list of entries where value of the ‘title’ field will containe either 'Demo' or ‘Welcome’.
+         *          // ‘result’ contains the list of entries where value of the ‘title’ field will contain either 'Demo' or ‘Welcome’.
          *       },function (error) {
          *          // error function
          *      })
@@ -232,7 +232,7 @@ export default class Query extends Entry {
          * @example let blogQuery = Stack().ContentType('example').Query();
          *          let data = blogQuery.notExists('featured').find()
          *          data.then(function(result) {
-         *        // result is the list of non-texisting’featured’" data.
+         *        // result is the list of non-existing’featured’" data.
          *       },function (error) {
          *          // error function
          *      })
@@ -298,7 +298,7 @@ export default class Query extends Entry {
          * @example let blogQuery = Stack().ContentType('example').Query();
          *          let data = blogQuery.skip(5).find()
          *          data.then(function(result) {
-         *          // ‘result’ contains the list of data which is sorted in descending order on created_at bases. 
+         *          // result contains the list of data which is sorted in descending order on created_at bases. 
          *       },function (error) {
          *          // error function
          *      })
@@ -313,7 +313,7 @@ export default class Query extends Entry {
          * @example let blogQuery = Stack().ContentType('example').Query();
          *          let data = blogQuery.limit(10).find()
          *          data.then(function(result) {
-         *          // ‘result’ contains the limited number of entries
+         *          // result contains the limited number of entries
          *       },function (error) {
          *          // error function
          *      })
@@ -501,9 +501,8 @@ export default class Query extends Entry {
 
     /**
      * @method getQuery
-     * @summary returns the raw query which can be used for futher calls(.and/.or).
-     * @description Returns the raw (JSON) query based on the filters applied on Query objet.
-     * @example blogQuery.where('title','Demo').getQuery()
+     * @description Returns the raw (JSON) query based on the filters applied on Query object.
+     * @example Stack.ContentType('contentType_uid').Query().where('title','Demo').getQuery().find()
      * @returns {Query}
      */
     getQuery() {
@@ -591,7 +590,7 @@ export default class Query extends Entry {
      * @description Retrieve a single entry from the result
      * @example let blogQuery = Stack().ContentType('example').Query().findOne();
      *          blogQuery.then(function(result) {
-     *          // result content the single item object. 
+     *          // result contains the single item object. 
      *       },function (error) {
      *          // error function
      *      })

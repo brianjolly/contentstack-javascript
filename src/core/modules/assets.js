@@ -73,7 +73,7 @@ export default class Assets {
 
     /**
      * @method fetch
-     * @description Fetches a particular entry based on the provided stack UID.
+     * @description Fetches a particular Asset based on the provided assets UID.
      * @example
      * Stack.Assets('bltsomething123').toJSON().fetch()
      */
